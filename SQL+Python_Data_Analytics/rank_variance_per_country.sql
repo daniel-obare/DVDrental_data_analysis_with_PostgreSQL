@@ -12,11 +12,11 @@
 -- apply final flter to fetch only countries ranking with decline( jank > dec rank)
 WITH dec_summary AS (
     SELECT 
-        country
+        country,
         SUM(number_of_comments) AS  number_of_comments_dec,
-        DENSE_RANK() OVER(ORDER BY SUM(bumber_of_comments) DESC) AS country_rank
+        DENSE_RANK() OVER(ORDER BY SUM(number_of_comments) DESC) AS country_rank
     FROM fb_active_users AS au
-    LEFT JOIN fb_comment_cunt AS cc
+    LEFT JOIN fb_comments_count AS cc
         ON au.user_id = cc.user_id
     WHERE created_at <= '2019-12-31' AND created_at >= '2019-12-01'
         AND country IS NOT NULL
@@ -24,11 +24,11 @@ WITH dec_summary AS (
 ),
 jan_summary AS (
     SELECT 
-         country
+         country,
         SUM(number_of_comments) AS number_of_comments_dec,
-        DENSE_RANK() OVER(ORDER BY SUM(bumber_of_comments) DESC) AS country_rank
+        DENSE_RANK() OVER(ORDER BY SUM(number_of_comments) DESC) AS country_rank
     FROM fb_active_users AS au
-    LEFT JOIN fb_comment_cunt AS cc
+    LEFT JOIN fb_comments_count AS cc
         ON au.user_id = cc.user_id
     WHERE created_at <= '2020-01-31' AND created_at >= '2020-01-01'
         AND country IS NOT NULL
